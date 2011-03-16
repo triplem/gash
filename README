@@ -1,0 +1,3 @@
+gash - Git ArchServer Helper Scripts
+
+Contains a migration script to migrate an existing directory structure with multiple packages in one repository to multiple repositories and one "super-repository".
