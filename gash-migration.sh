@@ -81,19 +81,16 @@ cp $repo $tmp_repo_name -rf
 
 # fetch latest changes of the given repository
 cd $base_dir/$tmp_repo_name
+echo $base_dir/$tmp_repo_name
 git pull
 cd $base_dir
 
-# clean repository
-cd $repo
-git rm * -rf
-
 # determine all sub-repositories in the super-repository
-cd $tmp_repo_name
+cd $base_dir/$tmp_repo_name
 
 # create the new project directory (eg. server-core, explicitly without 
 # .git-suffix) on the server, to store new sub-repositories.
-ssh $SERVER 'mkdir $GIT_SERVER_BASE_DIR/$repo'
+#ssh $SERVER 'mkdir $GIT_SERVER_BASE_DIR/$repo'
 
 # this should be more error prone, concerning spaces in names
 # and stuff like this.
@@ -108,6 +105,8 @@ for subrepo in * ; do
 	echo "base_dir/subrepo: $base_dir/$subrepo"
 	cd $base_dir
 	git clone --no-hardlinks $tmp_repo_name $repo_dir/$subrepo
+
+  exit 1
 
   # cleanup sub-repository
 	cd $subrepo
@@ -133,9 +132,18 @@ for subrepo in * ; do
 
   # add sub-repository to .gitignore and .gashlist in 
   # super-repository
-	cd $repo_dir
+	cd $base_dir/$tmp_repo_name
 	echo $subrepo >> .gitignore
 	echo $subrepo >> .gashlist
 
 	exit 1
 done
+
+# clean super-repository
+cd $base_dir/$tmp_repo_name
+git rm * -rf
+git commit -m "Remove moved packages"
+git add .gitignore
+git add .gashlist
+git commit -m "Add sub-repositories to gitignore and gashlist"
+
