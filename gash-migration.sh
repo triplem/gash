@@ -79,6 +79,11 @@ echo $base_dir
 tmp_repo_name=$repo.tmp
 cp $repo $tmp_repo_name -rf
 
+# fetch latest changes of the given repository
+cd $base_dir/$tmp_repo_name
+git pull
+cd $base_dir
+
 # clean repository
 cd $repo
 git rm * -rf
