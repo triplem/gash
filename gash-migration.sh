@@ -102,7 +102,7 @@ for subrepo in * ; do
   # clone repository into sub-repository
 	echo "base_dir/subrepo: $base_dir/$subrepo"
 	cd $base_dir
-	git clone --no-hardlinks $tmp_repo_name $subrepo
+	git clone --no-hardlinks $tmp_repo_name $repo_dir/$subrepo
 
   # cleanup sub-repository
 	cd $subrepo
@@ -111,6 +111,8 @@ for subrepo in * ; do
 	git reset --hard
   git gc --aggressive
 	git prune
+
+  exit 1
 
   # the new git repository needs to be created on the live system
   # create directory
