@@ -1,4 +1,4 @@
-echo "{| border='1' align='right' style='text-align:center;'"
+echo "{| border='1' "
 echo "!Package"
 echo "!Current Version"
 echo "!Upstream Version"
